@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+    <div id="container" style="height:760px;width: 100%;"></div>
+	</body>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="./test2.json"></script>
+  <script>
+    var dom = document.getElementById('container');
+        var myChart = echarts.init(dom, null, {
+          renderer: 'canvas',
+          useDirtyRect: false
+        });
+        var app = {};
+        var ROOT_PATH = 'https://echarts.apache.org/examples';
+        var option;
+
+        myChart.showLoading();
+/*点直径
+1级（领域）60
+2级（子领域）45
+3级（数据）13-17
+4级（）   5-8
+*/
+let graph = {
+    "nodes": [
+      {
+        "id": "1",
+        "name": "全域",
+        draggable: true, 
+        "symbolSize": 45,
+        "x": -87.93029,
+        "y": -6.8120565,
+        "value": 100,
+        "category": 0
+      },
+      {
+        "id": "2",
+        "name": "GIS",
+        "symbolSize": 45,
+        "x": -266.82776,
+        "y": 299.6904,
+        "value": 28.685715,
+        "category": 1
+      },
+      {
+        "id": "3",
+        "name": "便利交通-停车",
+        "symbolSize": 45,
+        "x": -81.46074,
+        "y": -204.20204,
+        "value": 47.88571,
+        "category": 2
+      },
+      {
+        "id": "4",
+        "name": "便利交通-出行",
+        "symbolSize": 45,
+        "x": 82.80825,
+        "y": -203.1144,
+        "value": 45.142853,
+        "category": 3
+      },
+      {
+        "id": "7",
+        "name": "韧性交通",
+        "symbolSize": 60,
+        "x": 206.44687,
+        "y": -13.805411,
+        "value": 53.37143,
+        "category": 8
+      },
+      {
+        "id": "C1",
+        "name": "零碳交通-能源",
+        "symbolSize": 45,
+        "x": 406.17184,
+        "y": -62.7286825,
+        "value": 36.91429,
+        "category": 5
+      },
+      {
+        "id": "C2",
+        "name": "零碳交通-车辆",
+        "symbolSize": 45,
+        "x": 516.40784,
+        "y": 47.242233,
+        "value": 34.17143,
+        "category": 6
+      },
+      {
+        "id": "C3",
+        "name": "零碳交通-双碳",
+        "symbolSize": 45,
+        "x": 316.40784,
+        "y": 237.242233,
+        "value": 34.17143,
+        "category": 7
+      },
+      {
+        "id": "5",
+        "name": "便利交通-综合治理",
+        "symbolSize": 45,
+        "x": -313.42786,
+        "y": -289.44803,
+        "value": 42.4,
+        "category": 4
+      },
+      {
+        "id": "8",
+        "name": "枢纽",
+        "symbolSize": 45,
+        "x": -385.6842,
+        "y": -20.206686,
+        "value": 23.2,
+        "category": 9
+      },
+      {
+        "id": "11",
+        "name": "北京市交通运输监测日报",
+        "symbolSize": 16,
+        "x": -89.34107,
+        "y": 234.56128,
+        "value": 4,
+        "category": 0
+      },
+      {
+        "id": "12",
+        "name": "北京路况数据",
+        "symbolSize": 14,
+        "x": -127.701546,
+        "y": 242.55057,
+        "value": 4,
+        "category": 0
+      },
+      {
+        "id": "13",
+        "name": "北京路况反推流量数据",
+        "symbolSize": 16,
+        "x": -122.41348,
+        "y": 210.37503,
+        "value": 4,
+        "category": 0
+      },
+      {
+        "id": "14",
+        "name": "北京市出租车日单量",
+        "symbolSize": 17,
+        "x": -158.05168,
+        "y": 201.99768,
+        "value": 4,
+        "category": 0
+      },
+      {
+        "id": "15",
+        "name": "市境内京籍12吨及以上货车运行数据",
+        "symbolSize": 16,
+        "x": -194.31313,
+        "y": 178.55301,
+        "value": 4,
+        "category": 0
+      },
+      {
+        "id": "16",
+        "name": "全市机动车总量与结构分类",
+        "symbolSize": 13,
+        "x": -60.942253,
+        "y": 143.78272,
+        "value": 9.485714,
+        "category": 0
+      },
+      {
+        "id": "21",
+        "name": "北京街道GIS数据",
+        "symbolSize": 16,
+        "x": -417.26337,
+        "y": 406.03506,
+        "value": 4,
+        "category": 1
+      },
+      {
+        "id": "22",
+        "name": "北京公交轨道线网GIS数据",
+        "symbolSize": 14,
+        "x": -379.30386,
+        "y": 429.06424,
+        "value": 4,
+        "category": 1
+      },
+      {
+        "id": "23",
+        "name": "北京路网GIS数据",
+        "symbolSize": 16,
+        "x": -320.384,
+        "y": 387.17325,
+        "value": 4,
+        "category": 1
+      },
+      {
+        "id": "31",
+        "name": "北京市停车普查数据",
+        "symbolSize": 16,
+        "x": 4.6313396,
+        "y": -273.8517,
+        "value": 31.428574,
+        "category": 2
+      },
+      {
+        "id": "32",
+        "name": "北京市路外经营性停车场基本信息",
+        "symbolSize": 16,
+        "x": -81.46074,
+        "y": -294.20204,
+        "value": 47.88571,
+        "category": 2
+      },
+      {
+        "id": "33",
+        "name": "北京市道路停车基本信息",
+        "symbolSize": 17,
+        "x": 78.4799,
+        "y": -347.15146,
+        "value": 28.685715,
+        "category": 2
+      },
+      {
+        "id": "34",
+        "name": "道路停车位使用效果评价信息",
+        "symbolSize": 16,
+        "x": 29.187843,
+        "y": -460.13132,
+        "value": 4,
+        "category": 2
+      },
+      {
+        "id": "35",
+        "name": "路外经营性停车进/出场、空余泊位数据",
+        "symbolSize": 16,
+        "x": 137.3717,
+        "y": -410.2809,
+        "value": 28.685715,
+        "category": 2
+      },
+      {
+        "id": "36",
+        "name": "道路停车数据",
+        "symbolSize": 16,
+        "x": -61.46074,
+        "y": -364.20204,
+        "value": 47.88571,
+        "category": 2
+      },
+      {
+        "id": "41",
+        "name": "共享单车日统计数据",
+        "symbolSize": 14,
+        "x": 150.35959,
+        "y": -298.50797,
+        "value": 28.685715,
+        "category": 3
+      },
+      {
+        "id": "42",
+        "name": "共享单车订单数据",
+        "symbolSize": 16,
+        "x": 238.36697,
+        "y": -210.00926,
+        "value": 31.428574,
+        "category": 3
+      },
+      {
+        "id": "43",
+        "name": "共享单车车辆动态数据",
+        "symbolSize": 13,
+        "x": 238.79364,
+        "y": -314.06345,
+        "value": 20.457146,
+        "category": 3
+      },
+      {
+        "id": "44",
+        "name": "共享单车车辆调度数据",
+        "symbolSize": 13,
+        "x": 189.69513,
+        "y": -346.50662,
+        "value": 9.485714,
+        "category": 3
+      },
+      {
+        "id": "71",
+        "name": "北京市交通行业突发事件信息",
+        "symbolSize": 16,
+        "x": 126.4831,
+        "y": 68.10622,
+        "value": 20.457146,
+        "category": 8
+      },
+      {
+        "id": "72",
+        "name": "北京市交通行业突发事件统计信息",
+        "symbolSize": 13,
+        "x": 162.63559,
+        "y": 117.6565,
+        "value": 20.457146,
+        "category": 8
+      },
+      {
+        "id": "61",
+        "name": "北京市城市交通不同能源占比预测数据（分情景）",
+        "symbolSize": 15,
+        "x": 406.17184,
+        "y": -182.7286825,
+        "value": 36.91429,
+        "category": 5
+      },
+      {
+        "id": "62",
+        "name": "北京市能源补给站基本信息（油电气氢）",
+        "symbolSize": 17,
+        "x": 375.78366,
+        "y": -124.882454,
+        "value": 42.4,
+        "category": 5
+      },
+      {
+        "id": "63",
+        "name": "北京市油电气氢年度统计数据",
+        "symbolSize": 14,
+        "x": 455.81955,
+        "y": -145.45826,
+        "value": 36.91429,
+        "category": 5
+      },
+      {
+        "id": "64",
+        "name": "北京市充电站/桩运行状态统计信息",
+        "symbolSize": 15,
+        "x": 550.1917,
+        "y": -158.17537,
+        "value": 31.428574,
+        "category": 5
+      },
+      {
+        "id": "65",
+        "name": "车辆电动化占比历史数据",
+        "symbolSize": 17,
+        "x": 602.55225,
+        "y": 16.421427,
+        "value": 34.17143,
+        "category": 6
+      },
+      {
+        "id": "66",
+        "name": "高德用户导航出行实走路径碳排放",
+        "symbolSize": 14,
+        "x": 437.939,
+        "y": 305.58234,
+        "value": 6.742859,
+        "category": 7
+      },
+      {
+        "id": "67",
+        "name": "高德用户导航出行规划方案",
+        "symbolSize": 17,
+        "x": 466.04922,
+        "y": 283.3606,
+        "value": 6.742859,
+        "category": 7
+      },
+      {
+        "id": "68",
+        "name": "北京城市交通不同方式碳排放占比统计数据",
+        "symbolSize": 17,
+        "x": 216.04922,
+        "y": 233.3606,
+        "value": 6.742859,
+        "category": 7
+      },
+      {
+        "id": "69",
+        "name": "北京市城市交通不同能源结构碳排放占比数据",
+        "symbolSize": 17,
+        "x": 266.04922,
+        "y": 343.3606,
+        "value": 6.742859,
+        "category": 7
+      },
+      {
+        "id": "610",
+        "name": "北京市城市交通碳中和预测数据（分情景）",
+        "symbolSize": 17,
+        "x": 316.04922,
+        "y": 363.3606,
+        "value": 6.742859,
+        "category": 7
+      },
+      {
+        "id": "611",
+        "name": "交通领域碳排放历史数据",
+        "symbolSize": 17,
+        "x": 226.04922,
+        "y": 303.3606,
+        "value": 6.742859,
+        "category": 7
+      },
+      {
+        "id": "51",
+        "name": "中关村软件园网约车和共享单车数据",
+        "symbolSize": 13,
+        "x": -385.2226,
+        "y": -393.5572,
+        "value": 25.942856,
+        "category": 4
+      },
+      {
+        "id": "52",
+        "name": "北京南站相关数据",
+        "symbolSize": 16,
+        "x": -459.1107,
+        "y": -362.5133,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "53",
+        "name": "金融街区区域数据",
+        "symbolSize": 13,
+        "x": -456.44113,
+        "y": -425.13303,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "54",
+        "name": "大兴中日示范区数据",
+        "symbolSize": 13,
+        "x": -516.55884,
+        "y": -393.98975,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "55",
+        "name": "北京国际俱乐部地块数据",
+        "symbolSize": 13,
+        "x": -408.12122,
+        "y": -464.5048,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "56",
+        "name": "西长安街街道相关数据",
+        "symbolSize": 15,
+        "x": -515.1624,
+        "y": -456.9891,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "57",
+        "name": "苏州桥相关数据",
+        "symbolSize": 13,
+        "x": -464.79382,
+        "y": -493.57944,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "58",
+        "name": "回龙观首开LONG街相关数据",
+        "symbolSize": 14,
+        "x": -506.44113,
+        "y": -425.13303,
+        "value": 20.457146,
+        "category": 4
+      },
+      {
+        "id": "81",
+        "name": "北京七站两场到发量数据",
+        "symbolSize": 17,
+        "x": -338.2307,
+        "y": 87.48405,
+        "value": 17.714287,
+        "category": 9
+      },
+      {
+        "id": "82",
+        "name": "北京七站两场车次、小时客流、预售票、圈车记录（仅可登录系统查看）",
+        "symbolSize": 17,
+        "x": -387.84915,
+        "y": 58.7059,
+        "value": 17.714287,
+        "category": 9
+      },
+      {
+        "id": "83",
+        "name": "北京七站两场网约车小时完单量",
+        "symbolSize": 14,
+        "x": -453.26874,
+        "y": 58.94648,
+        "value": 17.714287,
+        "category": 9
+      },
+      {
+        "id": "84",
+        "name": "北京六站两场巡游车小时完单量",
+        "symbolSize": 13,
+        "x": -386.44904,
+        "y": 140.05937,
+        "value": 17.714287,
+        "category": 9
+      }
+    ],
+    "links": [
+      {
+        "source": "2",
+        "target": "1",
+      },
+      {
+        "source": "11",
+        "target": "1",
+      },
+      {
+        "source": "11",
+        "target": "71"
+      },
+      {
+        "source": "12",
+        "target": "1"
+      },
+      {
+        "source": "13",
+        "target": "1"
+      },
+      {
+        "source": "14",
+        "target": "1"
+      },
+      {
+        "source": "15",
+        "target": "1"
+      },
+      {
+        "source": "16",
+        "target": "1"
+      },
+      {
+        "source": "21",
+        "target": "2"
+      },
+      {
+        "source": "22",
+        "target": "2"
+      },
+      {
+        "source": "23",
+        "target": "2"
+      },
+      {
+        "source": "3",
+        "target": "4"
+      },
+      {
+        "source": "3",
+        "target": "5"
+      },
+      {
+        "source": "4",
+        "target": "5"
+      },
+      {
+        "source": "31",
+        "target": "3"
+      },
+      {
+        "source": "31",
+        "target": "43"
+      },
+      {
+        "source": "32",
+        "target": "3"
+      },
+      {
+        "source": "33",
+        "target": "3"
+      },
+      {
+        "source": "34",
+        "target": "3"
+      },
+      {
+        "source": "34",
+        "target": "43"
+      },
+      {
+        "source": "34",
+        "target": "35"
+      },
+      {
+        "source": "35",
+        "target": "3"
+      },
+      {
+        "source": "36",
+        "target": "3"
+      },
+      {
+        "source": "41",
+        "target": "4"
+      },
+      {
+        "source": "42",
+        "target": "4"
+      },
+      {
+        "source": "43",
+        "target": "4"
+      },
+      {
+        "source": "44",
+        "target": "4"
+      },
+      {
+        "source": "71",
+        "target": "7"
+      },
+      {
+        "source": "72",
+        "target": "7"
+      },
+      {
+        "source": "C1",
+        "target": "C2"
+      },
+      {
+        "source": "C1",
+        "target": "C3"
+      },
+      {
+        "source": "C2",
+        "target": "C3"
+      },
+      {
+        "source": "63",
+        "target": "C2"
+      },
+      {
+        "source": "61",
+        "target": "C1"
+      },
+      {
+        "source": "62",
+        "target": "C1"
+      },
+      {
+        "source": "63",
+        "target": "C1"
+      },
+      {
+        "source": "64",
+        "target": "C1"
+      },
+      {
+        "source": "65",
+        "target": "C2"
+      },
+      {
+        "source": "66",
+        "target": "C3"
+      },
+      {
+        "source": "67",
+        "target": "C3"
+      },
+      {
+        "source": "68",
+        "target": "C3"
+      },
+      {
+        "source": "69",
+        "target": "C3"
+      },
+      {
+        "source": "610",
+        "target": "C3"
+      },
+      {
+        "source": "611",
+        "target": "C3"
+      },
+      {
+        "source": "61",
+        "target": "31"
+      },
+      {
+        "source": "61",
+        "target": "32"
+      },
+      {
+        "source": "61",
+        "target": "33"
+      },
+      {
+        "source": "61",
+        "target": "34"
+      },
+      {
+        "source": "61",
+        "target": "15"
+      },
+      {
+        "source": "63",
+        "target": "34"
+      },
+      {
+        "source": "63",
+        "target": "35"
+      },
+      {
+        "source": "63",
+        "target": "36"
+      },
+      {
+        "source": "63",
+        "target": "15"
+      },
+      {
+        "source": "67",
+        "target": "12"
+      },
+      {
+        "source": "51",
+        "target": "5"
+      },
+      {
+        "source": "52",
+        "target": "5"
+      },
+      {
+        "source": "53",
+        "target": "5"
+      },
+      {
+        "source": "54",
+        "target": "5"
+      },
+      {
+        "source": "55",
+        "target": "5"
+      },
+      {
+        "source": "56",
+        "target": "5"
+      },
+      {
+        "source": "57",
+        "target": "5"
+      },
+      {
+        "source": "58",
+        "target": "5"
+      },
+      {
+        "source": "81",
+        "target": "8"
+      },
+      {
+        "source": "82",
+        "target": "8"
+      },
+      {
+        "source": "82",
+        "target": "71"
+      },
+      {
+        "source": "82",
+        "target": "83"
+      },
+      {
+        "source": "82",
+        "target": "84"
+      },
+      {
+        "source": "82",
+        "target": "12"
+      },
+      {
+        "source": "83",
+        "target": "8"
+      },
+      {
+        "source": "83",
+        "target": "14"
+      },
+      {
+        "source": "84",
+        "target": "8"
+      },
+      {
+        "source": "84",
+        "target": "83"
+      },
+      {
+        "source": "84",
+        "target": "14"
+      },
+    ],
+    "categories": [
+      {
+        "name": "全域"
+      },
+      {
+        "name": "GIS"
+      },
+      {
+        "name": "便利交通-停车"
+      },
+      {
+        "name": "便利交通-出行"
+      },
+      {
+        "name": "便利交通-综合治理"
+      },
+      {
+        "name": "零碳交通-起源"
+      },
+      {
+        "name": "零碳交通-车辆"
+      },
+      {
+        "name": "零碳交通-双碳"
+      },
+      {
+        "name": "韧性交通"
+      },
+      {
+        "name": "枢纽"
+      }
+    ]
+  }
+
+
+
+      myChart.hideLoading();
+      graph.nodes.forEach(function (node) {
+        node.label = {
+          show: node.symbolSize > 20
+        };
+      });
+      option = {
+        title: {
+          text: '交研都市',
+          // subtext: 'Default layout',
+          top: 'top',
+          left: 'right'
+        },
+        tooltip: {
+          
+        },
+        legend: [
+          
+          {
+            x:'right',
+            y:' center',
+      
+            width:'100',
+      
+            padding:[300, 30,0 ,0],
+
+            // selectedMode: 'single',
+            data: graph.categories.map(function (a) {
+              return a.name;
+            })
+          }
+        ],
+        animationDuration: 1500,    //动画时长
+        animationEasingUpdate: 'quinticInOut',    //过度动画
+        series: [
+          {
+            color: ['#EE7700','#FFAA33', '#007FFF', '#33CCFF', '#0047AB','#32CD32', '#299617', '#A7F432','#7A0099','#dcdf00'],
+            
+            // name: 'lv',
+            type: 'graph',
+            // layout: 'none',
+            data: graph.nodes,
+            links: graph.links,
+            categories: graph.categories,
+            roam: true,
+          //   force: {
+          //   repulsion: 1000,
+          //   edgeLength: [150, 100]
+          //   },
+          //   formatter: function(node) {
+          //     node.label2 = {
+          // show: node.symbolSize > 2
+          //     };
+          //   },
+            // label2: {
+            //   position: 'right',   //位置
+            //   formatter: '{b}',
+            // },
+            label: {
+              position: 'right',   //位置
+              formatter: '{b}',
+            },
+            lineStyle: {
+              color: 'source',
+              curveness: 0.3
+            },
+            emphasis: {
+              focus: 'adjacency',
+              lineStyle: {
+                width: 10
+              }
+            }
+          }
+        ]
+      };
+      myChart.setOption(option);
+
+
+        if (option && typeof option === 'object') {
+          myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+  </script>
+</html>
